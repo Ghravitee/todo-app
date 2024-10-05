@@ -22,12 +22,6 @@ export default {
         "Very-Dark-Grayish-Blue-Dark-1": "hsl(233, 14%, 35%)",
         "Very-Dark-Grayish-Blue-Dark-2": "hsl(237, 14%, 26%)",
       },
-      backgroundImage: {
-        "desktop-dark": "url('/src/images/bg-desktop-dark.jpg')",
-        "desktop-light": "url('/src/images/bg-desktop-light.jpg')",
-        "mobile-dark": "url('/src/images/bg-mobile-dark.jpg')",
-        "mobile-light": "url('/src/images/bg-mobile-light.jpg')",
-      },
     },
   },
   plugins: [],
