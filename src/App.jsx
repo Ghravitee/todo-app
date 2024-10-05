@@ -6,19 +6,23 @@ import bgDesktopDark from "./images/bg-desktop-dark.jpg";
 import iconSun from "./images/icon-sun.svg";
 import iconMoon from "./images/icon-moon.svg";
 import TodoItem from "./components/TodoItem";
+import {
+  db,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "../firebase";
 
-// import ThemeProvider from "./components/ThemeProvider";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 const App = () => {
   const [input, setInput] = useState("");
   const [activeTab, setActiveTab] = useState("All");
-  // Load todos from localStorage if available, otherwise start with an empty array
-  const [todos, setTodos] = useState(() => {
-    const savedTodos = localStorage.getItem("todos");
-    return savedTodos ? JSON.parse(savedTodos) : [];
-  });
+  const [todos, setTodos] = useState([]);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
@@ -26,24 +30,30 @@ const App = () => {
     localStorage.setItem("theme", theme); // Save the theme in localStorage
   }, [theme]);
 
-  // Save todos to localStorage whenever the todos state changes
+  // Fetch todos from Firestore when the app loads
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+    const fetchTodos = async () => {
+      const todosCollection = collection(db, "todos");
+      const todoSnapshot = await getDocs(todosCollection);
+      const todoList = todoSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTodos(todoList);
+    };
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
+    fetchTodos();
+  }, []);
 
-  // function to add items to the todo list
-  const addTodo = () => {
+  // Add a new todo to Firestore
+  const addTodo = async () => {
     if (input.trim()) {
-      setTodos([...todos, { text: input, completed: false }]);
+      const newTodo = { text: input, completed: false };
+      const docRef = await addDoc(collection(db, "todos"), newTodo); // Add todo to Firestore
+      setTodos([...todos, { ...newTodo, id: docRef.id }]); // Add todo to local state
       setInput("");
     }
   };
-
-  // function to add todo using the enter key
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -51,23 +61,32 @@ const App = () => {
     }
   };
 
-  // function to toggle completed and active todo
-  const toggleTodo = (index) => {
-    const newTodos = todos.map((todo, i) =>
-      i === index ? { ...todo, completed: !todo.completed } : todo
-    );
-    setTodos(newTodos);
+  // Update todo's completion status in Firestore
+  const toggleTodo = async (index) => {
+    const todo = todos[index];
+    const updatedTodo = { ...todo, completed: !todo.completed };
+    await updateDoc(doc(db, "todos", todo.id), updatedTodo); // Update in Firestore
+    setTodos(todos.map((t, i) => (i === index ? updatedTodo : t)));
   };
 
-  // function to delete todo
-  const deleteTodo = (index) => {
-    const newTodos = todos.filter((_, i) => i !== index);
-    setTodos(newTodos);
+  // Delete a todo from Firestore
+  const deleteTodo = async (index) => {
+    const todo = todos[index];
+    await deleteDoc(doc(db, "todos", todo.id)); // Delete from Firestore
+    setTodos(todos.filter((_, i) => i !== index));
   };
 
-  // function to reset todo
-  const clearTodo = () => {
-    setTodos([]);
+  // Clear all completed todos from Firestore
+  const clearTodo = async () => {
+    const completedTodos = todos.filter((todo) => todo.completed);
+    for (let todo of completedTodos) {
+      await deleteDoc(doc(db, "todos", todo.id));
+    }
+    setTodos(todos.filter((todo) => !todo.completed));
+  };
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
   // function to check for the active todos
