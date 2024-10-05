@@ -1,28 +1,11 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
-import Homepage from "./pages/Homepage/Homepage";
-import Signup from "./pages/Signup/Signup";
-import Signin from "./pages/Signin/SignIn";
-
-const router = createBrowserRouter([
-  {
-    path: "/Homepage",
-    element: <Homepage />,
-  },
-  {
-    path: "/Signup",
-    element: <Signup />,
-  },
-  {
-    path: "/Signin",
-    element: <Signin />,
-  },
-]);
+// src/main.jsx (or index.jsx)
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App"; // Import your App component
+import "./index.css"; // Import any global styles
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App /> {/* Render the App component */}
   </React.StrictMode>
 );

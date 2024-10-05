@@ -1,24 +1,26 @@
-import Homepage from "./pages/Homepage/Homepage"; // Your Todo App component
-import SignIn from "./pages/Signin/SignIn";
-import Signup from "./pages/";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Homepage from "./pages/Homepage/Homepage";
+import Signup from "./pages/Signup/Signup";
+import Signin from "./pages/Signin/SignIn";
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <section>
-          <Routes>
-            {" "}
-            <Route path="/" element={<Homepage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<SignIn />} />
-          </Routes>
-        </section>
-      </div>
-    </Router>
-  );
-}
+// Define the router here inside App.jsx
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Homepage />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/signin",
+    element: <Signin />,
+  },
+]);
+
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
 export default App;
