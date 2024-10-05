@@ -145,6 +145,13 @@ const Signin = () => {
               theme === "light" ? "bg-white" : "bg-Very-Dark-Desaturated-Blue"
             }  -translate-y-8 md:-translate-y-4 lg:-translate-y-10 box px-4 py-4`}
           >
+            <h2
+              className={`mb-4 lg:text-2xl ${
+                theme === "light" ? "" : "text-white"
+              }`}
+            >
+              Please Sign in to proceed
+            </h2>
             <form className="mb-4">
               <div className="flex flex-col gap-2 mb-4">
                 <label
@@ -243,10 +250,7 @@ const Signin = () => {
                   }
                 >
                   No account yet?{" "}
-                  <Link
-                    to="/Signup"
-                    className="hover:underline underline-offset-2"
-                  >
+                  <Link to="/" className="hover:underline underline-offset-2">
                     Sign up
                   </Link>
                 </p>
