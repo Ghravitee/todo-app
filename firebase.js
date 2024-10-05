@@ -9,6 +9,8 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,5 +30,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-export { db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc };
+export {
+  app,
+  db,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  auth,
+  signInWithEmailAndPassword,
+  signOut,
+};
