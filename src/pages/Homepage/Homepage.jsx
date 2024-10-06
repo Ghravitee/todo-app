@@ -187,12 +187,12 @@ const Homepage = () => {
         <div className="max-w-full relative">
           <img
             src={theme === "light" ? bgMobileLight : bgMobileDark}
-            alt=""
+            alt="background image of the web app"
             className="w-full md:hidden max-h-[18rem] block"
           />
           <img
             src={theme === "light" ? bgDesktopLight : bgDesktopDark}
-            alt=""
+            alt="background image of the web app"
             className="w-full hidden md:block lg:max-h-[15rem]"
           />
           <div className="max-w-[20rem] md:max-w-[33rem] absolute top-10 lg:top-10 left-0 right-0 mx-auto flex justify-between items-center">
@@ -203,6 +203,7 @@ const Homepage = () => {
               onClick={toggleTheme}
               src={theme === "light" ? iconMoon : iconSun}
               className="cursor-pointer"
+              alt="icons used to change from light to dark mode"
             />
           </div>
 
