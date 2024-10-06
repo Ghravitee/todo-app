@@ -126,7 +126,7 @@ const Signup = () => {
               theme === "light" ? "" : "text-white"
             }`}
           >
-            Sign Up to to use the Todo App
+            Sign up to use the Todo App
           </h2>
           <form className="mb-4" onSubmit={onSubmit}>
             <div className="flex flex-col gap-2 mb-4">
